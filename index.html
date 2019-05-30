@@ -1,32 +1,77 @@
 <!doctype html>
 <html class="no-js" lang="">
-  <head>
-    <style>
-      #container {
-        margin: 3%;
-      }
-      .card {
-        border: 1px solid;
-        padding: 10px;
-        margin: 10px;
-      }
-    </style>
-  </head>
-  <body> 
-    <div id="container"></div>
-    <script src="https://cdn.jsdelivr.net/npm/showdown@^1.9.0/dist/showdown.min.js"></script>
+
+<head>
+  <style>
+    #container {
+      margin: 3%;
+    }
+
+    .card {
+      border: 1px solid;
+      padding: 10px;
+      margin: 10px;
+    }
+  </style>
+  <!-- Compiled and minified CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+</head>
+
+<body>
+  <div id="container"></div>
+  <script src="https://cdn.jsdelivr.net/npm/showdown@^1.9.0/dist/showdown.min.js"></script>
+  <!-- Compiled and minified JavaScript -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
   <script>
     (async () => {
       const converter = new showdown.Converter();
       converter.setOption('emoji', true);
-      const commentsResponse = await fetch('https://api.github.com/gists/ef14e052147f86ecc83e1c83af311d6a/comments');
+      const commentsResponse = await fetch(
+      'https://api.github.com/gists/ef14e052147f86ecc83e1c83af311d6a/comments');
       const comments = await commentsResponse.json();
-      const gists = comments.map((comment) => [comment.user.login, comment.body]);
-      gists.map(([user, gist]) => {
-        document.getElementById('container').innerHTML += `<div class="card">${converter.makeHtml(gist)}\n- ${user}</div>`;
+      const gists = comments
+        .sort(() => 0.5 - Math.random())
+        .map((comment) => [comment.user.login, comment.body]);
+      const colors = [
+        "indigo",
+        "indigo darken-1",
+        // "indigo darken-2",
+        // "indigo darken-3",
+        // "indigo darken-4",
+        // "indigo accent-1",
+        // "indigo accent-2",
+        // "indigo accent-3",
+        // "indigo accent-4",
+        // "light-green darken-1",
+        // "light-green darken-2",
+        // "light-green darken-3",
+        // "light-green darken-4"
+      ];
+
+      const template = (partial) => `
+        <div class="row">
+          <div class="col s12">
+            ${partial}
+          </div>
+        </div>
+      `;
+
+      const cards = gists.map(([user, gist]) => {
+        const palette = colors[Math.floor(Math.random() * colors.length)];
+        return `
+          <div class="col s6">
+            <div class="card ${palette}">
+              <div class="card-content white-text">
+                <span class="card-title right">${user}</span>
+                <p>${converter.makeHtml(gist)}</p>
+              </div>
+            </div>
+          </div>
+        `;
       });
+      document.getElementById('container').innerHTML += template(cards.join(''));
     })()
   </script>
-  </body>
-  
+</body>
+
 </html>
