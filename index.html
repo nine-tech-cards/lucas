@@ -1,0 +1,30 @@
+<!doctype html>
+<html class="no-js" lang="">
+  <head>
+    <style>
+      #container {
+        margin: 3%;
+      }
+      .card {
+        border: 1px solid;
+        padding: 10px;
+        margin: 10px;
+      }
+    </style>
+  </head>
+  <body> 
+    <div id="container"></div>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script>
+    (async () => {
+      const commentsResponse = await fetch('https://api.github.com/gists/9f86f7d6a5efec2e924c72dba12e6935/comments');
+      const comments = await commentsResponse.json();
+      const gists = comments.map((comment) => [comment.user.login, comment.body]);
+      gists.map(([user, gist]) => {
+        document.getElementById('container').innerHTML += `<div class="card">${marked(gist)}\n- ${user}</div>`;
+      });
+    })()
+  </script>
+  </body>
+  
+</html>
