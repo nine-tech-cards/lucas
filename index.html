@@ -14,14 +14,16 @@
   </head>
   <body> 
     <div id="container"></div>
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/showdown@^1.9.0/dist/showdown.min.js"></script>
   <script>
     (async () => {
+      const converter = new showdown.Converter();
+      converter.setOption('emoji', true);
       const commentsResponse = await fetch('https://api.github.com/gists/ef14e052147f86ecc83e1c83af311d6a/comments');
       const comments = await commentsResponse.json();
       const gists = comments.map((comment) => [comment.user.login, comment.body]);
       gists.map(([user, gist]) => {
-        document.getElementById('container').innerHTML += `<div class="card">${marked(gist)}\n- ${user}</div>`;
+        document.getElementById('container').innerHTML += `<div class="card">${converter.makeHtml(gist)}\n- ${user}</div>`;
       });
     })()
   </script>
