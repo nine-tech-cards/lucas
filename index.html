@@ -18,12 +18,14 @@
     (async () => {
       const converter = new showdown.Converter();
       converter.setOption('emoji', true);
-      const commentsResponse = await fetch(
-        'https://api.github.com/gists/ef14e052147f86ecc83e1c83af311d6a/comments');
+
+      const commentsResponse = await fetch('https://api.github.com/gists/ef14e052147f86ecc83e1c83af311d6a/comments');
       const comments = await commentsResponse.json();
+
       const gists = comments
         .sort(() => 0.5 - Math.random())
         .map((comment) => [comment.user.login, comment.body]);
+
       const colors = [
         "indigo",
         "indigo darken-1",
@@ -58,23 +60,22 @@
 
       const cards = gists.map(([user, gist]) => {
         const palette = colors[Math.floor(Math.random() * colors.length)];
-        return `
-          
-            <div class="card ${palette}">
-              <div class="card-content white-text">
-                <span class="activator card-title">${user}</span>
-                <p>${converter.makeHtml(gist)}</p>
-              </div>
-              <div class="card-reveal">
-                <span class="card-title grey-text text-darken-4">${user}<i class="material-icons right">close</i></span>
-                <p>${converter.makeHtml(gist)}</p>
-              </div>
+        return `          
+          <div class="card ${palette}">
+            <div class="card-content white-text">
+              <span class="activator card-title">${user}</span>
+              <p>${converter.makeHtml(gist)}</p>
             </div>
-          
+            <div class="card-reveal">
+              <span class="card-title grey-text text-darken-4">${user}<i class="material-icons right">close</i></span>
+              <p>${converter.makeHtml(gist)}</p>
+            </div>
+          </div>          
         `;
       });
+
       document.getElementById('container').innerHTML += template(cards);
-    })()
+    })();
   </script>
 </body>
 
