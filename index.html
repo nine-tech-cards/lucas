@@ -3,8 +3,8 @@
 
 <head>
   <style>
-    .card-reveal {
-      word-wrap: break-word;
+    img {
+      width: 100%;
     }
   </style>
   <!-- Compiled and minified CSS -->
@@ -31,21 +31,34 @@
         "indigo darken-1",
       ];
 
-      const template = (partial) => `
-        <div class="row">
-          <div class="col s12">
-            ${partial}
+      const template = (cards) => {
+        const columnA = [];
+        const columnB = [];
+        cards.forEach((partial, index) => {
+          (index % 2) ? columnA.push(partial): columnB.push(partial);
+        });
+        
+        return(`
+          <div class="row">
+            <div class="col s12">
+                <div class="col s6" data-col="1" >
+                  ${columnA.join('')}
+              </div>
+              <div class="col s6" data-col="2" >
+                  ${columnB.join('')}
+              </div>
+            </div>
           </div>
-        </div>
-      `;
+        `)
+      };
 
       const cards = gists.map(([user, gist]) => {
         const palette = colors[Math.floor(Math.random() * colors.length)];
         return `
-          <div class="col s6">
-            <div class="card small ${palette}">
+          
+            <div class="card ${palette}">
               <div class="activator card-content white-text">
-                <span class="card-title right">${user}</span>
+                <span class="card-title">${user}</span>
                 <p class="activator">${converter.makeHtml(gist)}</p>
               </div>
               <div class="card-reveal">
@@ -53,10 +66,10 @@
                 <p>${converter.makeHtml(gist)}</p>
               </div>
             </div>
-          </div>
+          
         `;
       });
-      document.getElementById('container').innerHTML += template(cards.join(''));
+      document.getElementById('container').innerHTML += template(cards);
     })()
   </script>
 </body>
