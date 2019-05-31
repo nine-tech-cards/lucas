@@ -21,7 +21,7 @@
       const converter = new showdown.Converter();
       converter.setOption('emoji', true);
       const commentsResponse = await fetch(
-      'https://api.github.com/gists/ef14e052147f86ecc83e1c83af311d6a/comments');
+        'https://api.github.com/gists/ef14e052147f86ecc83e1c83af311d6a/comments');
       const comments = await commentsResponse.json();
       const gists = comments
         .sort(() => 0.5 - Math.random())
@@ -29,6 +29,12 @@
       const colors = [
         "indigo",
         "indigo darken-1",
+        "deep-purple darken-1",
+        "deep-purple darken-2",
+        "light-blue darken-2",
+        "light-blue darken-3",
+        "blue-grey darken-2",
+        "blue-grey darken-3"
       ];
 
       const template = (cards) => {
@@ -37,8 +43,8 @@
         cards.forEach((partial, index) => {
           (index % 2) ? columnB.push(partial): columnA.push(partial);
         });
-        
-        return(`
+
+        return (`
           <div class="row">
             <div class="col s12">
                 <div class="col s6" data-col="1" >
@@ -57,9 +63,9 @@
         return `
           
             <div class="card ${palette}">
-              <div class="activator card-content white-text">
-                <span class="card-title">${user}</span>
-                <p class="activator">${converter.makeHtml(gist)}</p>
+              <div class="card-content white-text">
+                <span class="activator card-title">${user}</span>
+                <p>${converter.makeHtml(gist)}</p>
               </div>
               <div class="card-reveal">
                 <span class="card-title grey-text text-darken-4">${user}<i class="material-icons right">close</i></span>
