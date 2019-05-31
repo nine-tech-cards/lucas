@@ -3,14 +3,8 @@
 
 <head>
   <style>
-    #container {
-      margin: 3%;
-    }
-
-    .card {
-      border: 1px solid;
-      padding: 10px;
-      margin: 10px;
+    .card-reveal {
+      word-wrap: break-word;
     }
   </style>
   <!-- Compiled and minified CSS -->
@@ -60,10 +54,14 @@
         const palette = colors[Math.floor(Math.random() * colors.length)];
         return `
           <div class="col s6">
-            <div class="card ${palette}">
-              <div class="card-content white-text">
+            <div class="card small ${palette}">
+              <div class="activator card-content white-text">
                 <span class="card-title right">${user}</span>
-                <p>${converter.makeHtml(gist)}</p>
+                <p class="activator">${converter.makeHtml(gist)}fkjdfgdfkjbgdfkjgdfgfkjdfgdfkjbgdfkjgdfgfkjdfgdfkjbgdfkjgdfgfkjdfgdfkjbgdfkjgdfgfkjdfgdfkjbgdfkjgdfgfkjdfgdfkjbgdfkjgdfgfkjdfgdfkjbgdfkjgdfgfkjdfgdfkjbgdfkjgdfgfkjdfgdfkjbgdfkjgdfgfkjdfgdfkjbgdfkjgdfgfkjdfgdfkjbgdfkjgdfg</p>
+              </div>
+              <div class="card-reveal">
+                <span class="card-title grey-text text-darken-4">${user}<i class="material-icons right">close</i></span>
+                <p>${converter.makeHtml(gist)}fkjdfgdfkjbgdfkjgdfgfkjdfgdfkjbgdfkjgdfgfkjdfgdfkjbgdfkjgdfgfkjdfgdfkjbgdfkjgdfgfkjdfgdfkjbgdfkjgdfgfkjdfgdfkjbgdfkjgdfgfkjdfgdfkjbgdfkjgdfgfkjdfgdfkjbgdfkjgdfgfkjdfgdfkjbgdfkjgdfgfkjdfgdfkjbgdfkjgdfgfkjdfgdfkjbgdfkjgdfg</p>
               </div>
             </div>
           </div>
